@@ -6,7 +6,7 @@
 //
 
 /// This the structure where put the information to send to OpenAI API
-struct Message: Codable {
+public struct Message: Codable {
     let role: String
     
     /// Content is required

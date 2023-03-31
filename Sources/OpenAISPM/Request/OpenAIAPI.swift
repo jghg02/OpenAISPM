@@ -13,7 +13,7 @@ public class OpenAIAPI {
     private var model: ChatModel
     private var temperature: Double
     private var stream: Bool
-    private var historyMessage = [Message]()
+    public var historyMessage = [Message]()
     private let systemMessage: Message
     
     private var headers: [String: String] {
@@ -58,7 +58,7 @@ public class OpenAIAPI {
         var messages = [systemMessage] + historyMessage + [Message(role: Role.user.rawValue, content: text)]
         // Validate the characters for each element into message array
         if messages.contentCount > (4000 * 4) {
-            // Delete the first one. Nor include the system message
+            // Delete the first one. No include the system message
             _ = historyMessage.dropFirst()
             messages = generateMessages(from: text)
         }
@@ -66,7 +66,7 @@ public class OpenAIAPI {
     }
     
     private func setupBody(text: String, stream: Bool) -> Body {
-        return Body(model: self.model.rawValue, stream: self.stream, temperature: self.temperature, messages: generateMessages(from: text))
+        return Body(model: self.model.rawValue, stream: self.stream, temperature: self.temperature, messages: [Message(role: Role.user.rawValue, content: text)])
         
     }
     
